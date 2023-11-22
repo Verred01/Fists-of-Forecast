@@ -1,0 +1,53 @@
+
+
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            margin: 0;
+        }
+        header, footer {
+            background: #bcd4d7;
+            padding: 1px;
+            text-align: center;
+        }
+        .main-content {
+            display: flex;
+        }
+        .sidebar {
+            width: 400px;
+            height: 600px;
+            background: rgb(22, 97, 97);
+            padding: 10px;
+            text-align:left;
+        }
+        .search-area {
+            flex: 1;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: left;
+        
+        }
+        .search-box {
+            margin-bottom: 5px;
+        }
+        .resources {
+            width: 400px;
+            height: 600px;
+            background: rgb(22, 97, 97);
+            padding: 10px;
+            text-align: center;
+        }
+
+        #geoapicontainer{
+            width:75%;
+            height: 100%;
+            text-align: center;
+        }
+        #weatherapicontainer{
+            width:75%;
+            height: 100%;
+            text-align: center;
+        }
