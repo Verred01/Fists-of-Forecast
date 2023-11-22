@@ -39,6 +39,11 @@
             background: rgb(22, 97, 97);
             padding: 10px;
             text-align: center;
+ 
+        }
+        #resourcesList{
+            list-style-type: none;
+            text-align: start;
         }
 
         #geoapicontainer{

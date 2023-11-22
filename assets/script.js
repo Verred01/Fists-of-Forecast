@@ -31,3 +31,30 @@ window.onload = function() {
     updateRecentSearches(searches);
     document.getElementById('search-btn').onclick = storeSearch;
 }
+//API for fishing areas based on zip code start
+function searchFishingAreas(zipCode) {
+    fetch("https://wft-geo-db.p.rapidapi.com/v1/geo/adminDivisions", + '?zipCode=' + zipCode)
+        .then(response => response.json())
+        .then(data => displayFishingAreas(data))
+        .catch(error => console.error('Error:', error));
+}
+
+function displayFishingAreas(data) {
+    const container = document.getElementById('geoApiContainer');
+    container.innerHTML = ''; 
+
+
+    data.forEach(area => {
+        const entry = document.createElement('div');
+        entry.className = 'fishing-area-entry';
+        entry.textContent = area.name; 
+        container.appendChild(entry);
+    });
+}
+
+document.getElementById('search-btn').onclick = function() {
+    const zipCode = document.getElementById('search-box').value.trim();
+    storeSearch();
+    searchFishingAreas(zipCode);
+};
+//API for fishing areas based on zip code end
