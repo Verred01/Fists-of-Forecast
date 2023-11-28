@@ -1,6 +1,11 @@
+var searchBtn = document.getElementById("search-btn");
+var searchBox = document.getElementById("search-box");
+console.log(searchBtn);
+console.log(searchBox);
+var searchTerm;
+var zipcode;
+
 function storeSearch() {
-    const searchBox = document.getElementById('search-box');
-    const searchTerm = searchBox.value.trim();
 
     if (searchTerm) {
         let searches = JSON.parse(localStorage.getItem('searches')) || [];
@@ -26,14 +31,14 @@ function updateRecentSearches(searches) {
     });
 }
 
-window.onload = function() {
-    const searches = JSON.parse(localStorage.getItem('searches')) || [];
-    updateRecentSearches(searches);
-    document.getElementById('search-btn').onclick = storeSearch;
-}
+// window.onload = function() {
+//     const searches = JSON.parse(localStorage.getItem('searches')) || [];
+//     updateRecentSearches(searches);
+//     document.getElementById('search-btn').onclick = storeSearch;
+// }
 //API for fishing areas based on zip code start
-function searchFishingAreas(zipCode) {
-    fetch("https://wft-geo-db.p.rapidapi.com/v1/geo/adminDivisions", + '?zipCode=' + zipCode)
+function searchFishingAreas(zipcode) {
+    fetch("https://wft-geo-db.p.rapidapi.com/v1/geo/adminDivisions", + '?zipCode=' + zipcode)
         .then(response => response.json())
         .then(data => displayFishingAreas(data))
         .catch(error => console.error('Error:', error));
@@ -52,12 +57,17 @@ function displayFishingAreas(data) {
     });
 }
 
-document.getElementById('search-btn').onclick = function() {
-    const zipCode = document.getElementById('search-box').value.trim();
+searchBtn.addEventListener('click', function() {
+    console.log("event triggered");
+    searchTerm = searchBox.value.trim();
+    console.log(searchTerm);
+    zipcode = searchTerm;
+    console.log(zipcode);
+    console.log(searchBox);
     storeSearch();
-    searchFishingAreas(zipCode);
-};
-
+    // searchFishingAreas(zipcode);
+    getLocation(zipcode);
+});
 
 //API for weather based on zip code end
 
@@ -153,7 +163,6 @@ function getLocation(zipcode) {
         });
 };
 
-getLocation(zipcode);
 
 // Function to convert time in Unix into HH:MM:SS
 function timeConversion(unixTimestamp) {
@@ -174,32 +183,32 @@ return formatTime;
 
 
 
-// Event Listener for the submit search button
-var searchBtn = $("#search-btn");
-// Add event listener to the search button
-searchBtn.on('click', submitSearch);
+// // Event Listener for the submit search button
 
-var submitSearch = function (event) {
-    event.preventDefault();
-    console.log("event triggered");
-    zipcode = cityEl.val().trim();
-    citySearched = JSON.parse(localStorage.getItem("City Searched"));
+// // Add event listener to the search button
+// searchBtn.on('click', submitSearch);
 
-    if (city) {
-        getLocation(city);
-        city = city.toLowerCase();
-        if (citySearched == null) {
-            citySearched = [city];
-            console.log("01")
-            storeCity();
-        }
-        else if (citySearched.includes(city)) {
-            console.log(citySearched);
-            return citySearched;
+// var submitSearch = function (event) {
+//     event.preventDefault();
+//     console.log("event triggered");
+//     zipcode = cityEl.val().trim();
+//     citySearched = JSON.parse(localStorage.getItem("City Searched"));
 
-        } else {
-            citySearched.push(city);
-            storeCity();
-        }
-    }
-};
+//     if (city) {
+//         getLocation(city);
+//         city = city.toLowerCase();
+//         if (citySearched == null) {
+//             citySearched = [city];
+//             console.log("01")
+//             storeCity();
+//         }
+//         else if (citySearched.includes(city)) {
+//             console.log(citySearched);
+//             return citySearched;
+
+//         } else {
+//             citySearched.push(city);
+//             storeCity();
+//         }
+//     }
+// };
