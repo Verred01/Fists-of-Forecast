@@ -4,24 +4,33 @@ console.log(searchBtn);
 console.log(searchBox);
 var searchTerm;
 var zipcode;
+var weatherInfoEl = document.getElementById("weather-info");
 
-function storeSearch() {
+function storeSearch(searchTerm) {
 
-    if (searchTerm) {
-        let searches = JSON.parse(localStorage.getItem('searches')) || [];
-        searches.unshift(searchTerm); 
-        searches = searches.slice(0, 10); 
+    let searches = JSON.parse(localStorage.getItem('searches')) || [];
+
+    if (searches.includes(searchTerm)) {
+        console.log(searchTerm);
+        console.log("if");
+        return searches;
+    }
+    else {
+        console.log("else");
+        console.log(searchTerm);
+        searches.unshift(searchTerm);
+        searches = searches.slice(0, 10);
         localStorage.setItem('searches', JSON.stringify(searches));
 
         updateRecentSearches(searches);
     }
 
-    searchBox.value = ''; 
+    searchBox.value = '';
 }
 
 function updateRecentSearches(searches) {
     const recentSearches = document.getElementById('recent-searches');
-    recentSearches.innerHTML = ''; 
+    recentSearches.innerHTML = '';
 
     searches.forEach(term => {
         const entry = document.createElement('div');
@@ -46,33 +55,30 @@ function searchFishingAreas(zipcode) {
 
 function displayFishingAreas(data) {
     const container = document.getElementById('geoApiContainer');
-    container.innerHTML = ''; 
+    container.innerHTML = '';
 
 
     data.forEach(area => {
         const entry = document.createElement('div');
         entry.className = 'fishing-area-entry';
-        entry.textContent = area.name; 
+        entry.textContent = area.name;
         container.appendChild(entry);
     });
 }
 
-searchBtn.addEventListener('click', function() {
+searchBtn.addEventListener('click', function () {
     console.log("event triggered");
     searchTerm = searchBox.value.trim();
     console.log(searchTerm);
     zipcode = searchTerm;
     console.log(zipcode);
     console.log(searchBox);
-    storeSearch();
+    storeSearch(searchTerm);
     // searchFishingAreas(zipcode);
     getLocation(zipcode);
 });
 
 //API for weather based on zip code end
-
-// var zipcode = "84103";
-
 function getCurrentWeather() {
 
     weather = [];
@@ -111,35 +117,7 @@ function getCurrentWeather() {
             weather = [sky, temp, minTemp, maxTemp, wind, humidity, sunriseTime, sunsetTime];
             console.log(weather);
 
-            // CODE TO DUSPLAY ICONS ACCORDING TO SKY STATUS
-            //     if (data.weather[0].main == "Thunderstorm") {
-            //         weatherIconEl.attr("class", "fa-solid fa-bolt");
-
-            //     }
-
-            //     else if (data.weather[0].main == "Clouds") {
-            //         weatherIconEl.attr("class", "fa-solid fa-cloud");
-
-            //     }
-
-            //     else if (data.weather[0].main == "Rain" || data.weather[0].main == "Drizzle") {
-            //         weatherIconEl.attr("class", "fa-solid fa-cloud-rain");
-
-            //     } else if (data.weather[0].main == "Snow") {
-            //         weatherIconEl.attr("class", "fa-solid fa-snowflake");
-            //     } else if (data.weather[0].main == "Clear") {
-            //         weatherIconEl.attr("class", "fa-solid fa-sun");
-            //     } else {
-            //         weatherIconEl.attr("class", "");
-            //     }
-
-            //     for (var i = 0; i < weather.length; i++) {
-
-            //         var liElemt = document.createElement('li');
-            //         liElemt.textContent = weather[i];
-            //         todayWeatherEl.append(liElemt);
-            //     }
-            // });
+            displayWeather(weather);
         });
 };
 
@@ -159,56 +137,61 @@ function getLocation(zipcode) {
             latitude = data.lat;
             longitude = data.lon;
             getCurrentWeather();
-
         });
 };
 
 
 // Function to convert time in Unix into HH:MM:SS
 function timeConversion(unixTimestamp) {
-//Since JavaScript works in milliseconds, you should convert 
-// the time into milliseconds by multiplying it by 1000.
-let date = new Date(unixTimestamp * 1000);
-// Hours part from the timestamp
-let hours = date.getHours();
-// Minutes part from the timestamp
-let minutes = "0" + date.getMinutes();
-// Seconds part from the timestamp
-let seconds = "0" + date.getSeconds();
-// Will display time in 11:10:22 format
-let formatTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-console.log(formatTime);
-return formatTime;
+    //Since JavaScript works in milliseconds, you should convert 
+    // the time into milliseconds by multiplying it by 1000.
+    let date = new Date(unixTimestamp * 1000);
+    // Hours part from the timestamp
+    let hours = date.getHours();
+    // Minutes part from the timestamp
+    let minutes = "0" + date.getMinutes();
+    // Seconds part from the timestamp
+    let seconds = "0" + date.getSeconds();
+    // Will display time in 11:10:22 format
+    let formatTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    console.log(formatTime);
+    return formatTime;
 };
 
+function displayWeather(weather) {
 
+    for (var i = 0; i < weather.length; i++) {
+        weatherInfoEl.children[i].textContent = weather[i];
+        console.log(weatherInfoEl.children[i]);
+    }
 
-// // Event Listener for the submit search button
+    // CODE TO DUSPLAY ICONS ACCORDING TO SKY STATUS
+    //     if (data.weather[0].main == "Thunderstorm") {
+    //         weatherIconEl.attr("class", "fa-solid fa-bolt");
 
-// // Add event listener to the search button
-// searchBtn.on('click', submitSearch);
+    //     }
 
-// var submitSearch = function (event) {
-//     event.preventDefault();
-//     console.log("event triggered");
-//     zipcode = cityEl.val().trim();
-//     citySearched = JSON.parse(localStorage.getItem("City Searched"));
+    //     else if (data.weather[0].main == "Clouds") {
+    //         weatherIconEl.attr("class", "fa-solid fa-cloud");
 
-//     if (city) {
-//         getLocation(city);
-//         city = city.toLowerCase();
-//         if (citySearched == null) {
-//             citySearched = [city];
-//             console.log("01")
-//             storeCity();
-//         }
-//         else if (citySearched.includes(city)) {
-//             console.log(citySearched);
-//             return citySearched;
+    //     }
 
-//         } else {
-//             citySearched.push(city);
-//             storeCity();
-//         }
-//     }
-// };
+    //     else if (data.weather[0].main == "Rain" || data.weather[0].main == "Drizzle") {
+    //         weatherIconEl.attr("class", "fa-solid fa-cloud-rain");
+
+    //     } else if (data.weather[0].main == "Snow") {
+    //         weatherIconEl.attr("class", "fa-solid fa-snowflake");
+    //     } else if (data.weather[0].main == "Clear") {
+    //         weatherIconEl.attr("class", "fa-solid fa-sun");
+    //     } else {
+    //         weatherIconEl.attr("class", "");
+    //     }
+
+    //     for (var i = 0; i < weather.length; i++) {
+
+    //         var liElemt = document.createElement('li');
+    //         liElemt.textContent = weather[i];
+    //         todayWeatherEl.append(liElemt);
+    //     }
+    // });
+};
