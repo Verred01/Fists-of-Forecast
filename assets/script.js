@@ -1,4 +1,3 @@
-
 var searchBtn = document.getElementById("search-btn");
 var searchBox = document.getElementById("search-box");
 console.log(searchBtn);
@@ -10,28 +9,15 @@ var latitude, longitude;
 var today = document.getElementById('today');
 var jokeEl = document.getElementById("search-btn")
 
-
-
 function storeSearch(searchTerm) {
-
     let searches = JSON.parse(localStorage.getItem('searches')) || [];
-
-    if (searches.includes(searchTerm)) {
-        console.log(searchTerm);
-        console.log("if");
-        return searches;
-    }
-    else {
-        console.log("else");
-        console.log(searchTerm);
-        searches.unshift(searchTerm);
-        searches = searches.slice(0, 10);
-        localStorage.setItem('searches', JSON.stringify(searches));
-
-        updateRecentSearches(searches);
-    }
-
+    console.log(searchTerm);
+    searches.unshift(searchTerm);
+    searches = searches.slice(0, 10);
+    localStorage.setItem('searches', JSON.stringify(searches));
+    updateRecentSearches(searches);
     searchBox.value = '';
+    return searches;
 }
 
 function updateRecentSearches(searches) {
@@ -46,7 +32,7 @@ function updateRecentSearches(searches) {
     });
 }
 
-document.getElementById('search-btn').onclick = function() {
+document.getElementById('search-btn').onclick = function () {
     var zipcode = searchBox.value; // Get the zip code from the input box
     if (zipcode) {
         storeSearch(zipcode);
@@ -54,14 +40,11 @@ document.getElementById('search-btn').onclick = function() {
     }
 };
 
-
 //API for weather based on zip code end
 function getCurrentWeather() {
-
     weather = [];
 
     requestUrl = "https://api.openweathermap.org/data/2.5/weather?" + "lat=" + latitude + "&lon=" + longitude + "&appid=a0290a3291b38896066eaae36dc53ecf";
-
     fetch(requestUrl)
         .then(function (response) {
             return response.json();
@@ -89,19 +72,14 @@ function getCurrentWeather() {
             sunsetTime = timeConversion(sunset);
             console.log(typeof sunriseTime);
 
-
             weather = [sky, temp, minTemp, maxTemp, wind, humidity, sunriseTime, sunsetTime];
             console.log(weather);
 
             displayWeather(weather);
         });
 };
-
-
-
 // Function to get the latitude and longitude of the search city through the openweatherAPI
 function getLocation(zipcode) {
-
     requestUrl = "http://api.openweathermap.org/geo/1.0/zip?zip=" + zipcode + "&appid=a0290a3291b38896066eaae36dc53ecf";
     //why is the following line not working?
     // todayDateEl.text(city.toUpperCase() + " " + dayjs().format('DD/MM/YYYY'));
@@ -116,8 +94,6 @@ function getLocation(zipcode) {
             getCurrentWeather();
         });
 };
-
-
 // Function to convert time in Unix into HH:MM:SS
 function timeConversion(unixTimestamp) {
     //Since JavaScript works in milliseconds, you should convert 
@@ -136,14 +112,11 @@ function timeConversion(unixTimestamp) {
 };
 
 function displayWeather(weather) {
-
     for (var i = 0; i < weather.length; i++) {
         weatherInfoEl.children[i].textContent = weather[i];
         console.log(weatherInfoEl.children[i]);
     }//Works! do not touch above this line
-    };
-
-
+};
 // Chuck Norris API
 function displayJoke() {
     fetch('https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random', {
@@ -152,16 +125,16 @@ function displayJoke() {
             "Accept": "application/json"
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        const container = document.getElementById("chuck-norris-joke"); // specifies the container to be used
-        const newJokeEl = document.createElement("p"); // Create a new paragraph element
-        newJokeEl.textContent = data.value; // Set the text of the paragraph to the joke
-        container.appendChild(newJokeEl); // Appends the new <p> to the assigned container
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById("chuck-norris-joke"); // specifies the container to be used
+            const newJokeEl = document.createElement("p"); // Create a new paragraph element
+            newJokeEl.textContent = data.value; // Set the text of the paragraph to the joke
+            container.appendChild(newJokeEl); // Appends the new <p> to the assigned container
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 document.getElementById('search-btn').addEventListener('click', displayJoke);
 //works! do not alter above this line under pain of death
