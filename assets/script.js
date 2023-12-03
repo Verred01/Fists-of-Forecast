@@ -1,3 +1,4 @@
+
 var searchBtn = document.getElementById("search-btn");
 var searchBox = document.getElementById("search-box");
 console.log(searchBtn);
