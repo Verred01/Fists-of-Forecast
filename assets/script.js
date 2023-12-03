@@ -1,3 +1,4 @@
+
 var searchBtn = document.getElementById("search-btn");
 var searchBox = document.getElementById("search-box");
 console.log(searchBtn);
@@ -5,6 +6,11 @@ console.log(searchBox);
 var searchTerm;
 var zipcode;
 var weatherInfoEl = document.getElementById("weather-info");
+var latitude, longitude;
+var today = document.getElementById('today');
+var jokeEl = document.getElementById("search-btn")
+
+
 
 function storeSearch(searchTerm) {
 
@@ -40,43 +46,14 @@ function updateRecentSearches(searches) {
     });
 }
 
-// window.onload = function() {
-//     const searches = JSON.parse(localStorage.getItem('searches')) || [];
-//     updateRecentSearches(searches);
-//     document.getElementById('search-btn').onclick = storeSearch;
-// }
-//API for fishing areas based on zip code start
-function searchFishingAreas(zipcode) {
-    fetch("https://wft-geo-db.p.rapidapi.com/v1/geo/adminDivisions", + '?zipCode=' + zipcode)
-        .then(response => response.json())
-        .then(data => displayFishingAreas(data))
-        .catch(error => console.error('Error:', error));
-}
+document.getElementById('search-btn').onclick = function() {
+    var zipcode = searchBox.value; // Get the zip code from the input box
+    if (zipcode) {
+        storeSearch(zipcode);
+        getLocation(zipcode); // Call getLocation with the zip code
+    }
+};
 
-function displayFishingAreas(data) {
-    const container = document.getElementById('geoApiContainer');
-    container.innerHTML = '';
-
-
-    data.forEach(area => {
-        const entry = document.createElement('div');
-        entry.className = 'fishing-area-entry';
-        entry.textContent = area.name;
-        container.appendChild(entry);
-    });
-}
-
-searchBtn.addEventListener('click', function () {
-    console.log("event triggered");
-    searchTerm = searchBox.value.trim();
-    console.log(searchTerm);
-    zipcode = searchTerm;
-    console.log(zipcode);
-    console.log(searchBox);
-    storeSearch(searchTerm);
-    // searchFishingAreas(zipcode);
-    getLocation(zipcode);
-});
 
 //API for weather based on zip code end
 function getCurrentWeather() {
@@ -91,7 +68,6 @@ function getCurrentWeather() {
         })
         .then(function (data) {
             console.log(data);
-            //     todayDateEl.text(city.toUpperCase() + " " + dayjs().format('DD/MM/YYYY'));
 
             sky = data.weather[0].main;
             console.log(sky);
@@ -123,10 +99,11 @@ function getCurrentWeather() {
 
 
 
-// Function to get the latitude and longitude of the search city through the GeoAPI
+// Function to get the latitude and longitude of the search city through the openweatherAPI
 function getLocation(zipcode) {
 
     requestUrl = "http://api.openweathermap.org/geo/1.0/zip?zip=" + zipcode + "&appid=a0290a3291b38896066eaae36dc53ecf";
+    //why is the following line not working?
     // todayDateEl.text(city.toUpperCase() + " " + dayjs().format('DD/MM/YYYY'));
     fetch(requestUrl)
         .then(function (response) {
@@ -163,35 +140,28 @@ function displayWeather(weather) {
     for (var i = 0; i < weather.length; i++) {
         weatherInfoEl.children[i].textContent = weather[i];
         console.log(weatherInfoEl.children[i]);
-    }
+    }//Works! do not touch above this line
+    };
 
-    // CODE TO DUSPLAY ICONS ACCORDING TO SKY STATUS
-    //     if (data.weather[0].main == "Thunderstorm") {
-    //         weatherIconEl.attr("class", "fa-solid fa-bolt");
 
-    //     }
-
-    //     else if (data.weather[0].main == "Clouds") {
-    //         weatherIconEl.attr("class", "fa-solid fa-cloud");
-
-    //     }
-
-    //     else if (data.weather[0].main == "Rain" || data.weather[0].main == "Drizzle") {
-    //         weatherIconEl.attr("class", "fa-solid fa-cloud-rain");
-
-    //     } else if (data.weather[0].main == "Snow") {
-    //         weatherIconEl.attr("class", "fa-solid fa-snowflake");
-    //     } else if (data.weather[0].main == "Clear") {
-    //         weatherIconEl.attr("class", "fa-solid fa-sun");
-    //     } else {
-    //         weatherIconEl.attr("class", "");
-    //     }
-
-    //     for (var i = 0; i < weather.length; i++) {
-
-    //         var liElemt = document.createElement('li');
-    //         liElemt.textContent = weather[i];
-    //         todayWeatherEl.append(liElemt);
-    //     }
-    // });
-};
+// Chuck Norris API
+function displayJoke() {
+    fetch('https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random', {
+        headers: {
+            "X-RapidAPI-Key": "0be76eb0b8mshf435796480fa159p129846jsn6d77e278b00d",
+            "Accept": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById("chuck-norris-joke"); // specifies the container to be used
+        const newJokeEl = document.createElement("p"); // Create a new paragraph element
+        newJokeEl.textContent = data.value; // Set the text of the paragraph to the joke
+        container.appendChild(newJokeEl); // Appends the new <p> to the assigned container
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+document.getElementById('search-btn').addEventListener('click', displayJoke);
+//works! do not alter above this line under pain of death
