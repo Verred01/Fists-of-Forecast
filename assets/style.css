@@ -7,8 +7,7 @@
            color: white;
        }
 
-       header,
-       footer {
+       header, footer {
            font-family: cursive;
            background: #000000;
            padding: 1px;
@@ -40,21 +39,10 @@
        .search-box {
            margin-bottom: 5px;
        }
-
-       .resources {
-           width: 200px;
-           height: 600px;
-           background: rgb(22, 97, 97);
-           padding: 10px;
-           text-align: center;
+       .recent-searches {
+        color: white
        }
-
-       #resourcesList {
-           list-style-type: disc;
-           text-align: start;
-       }
-
-
+       
        #chuck-norris-joke {
            text-wrap: wrap;
            display: block;
