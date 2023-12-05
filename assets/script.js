@@ -80,7 +80,7 @@ function getCurrentWeather() {
 };
 // Function to get the latitude and longitude of the search city through the openweatherAPI
 function getLocation(zipcode) {
-    requestUrl = "http://api.openweathermap.org/geo/1.0/zip?zip=" + zipcode + "&appid=a0290a3291b38896066eaae36dc53ecf";
+    requestUrl = "https://api.openweathermap.org/geo/1.0/zip?zip=" + zipcode + "&appid=a0290a3291b38896066eaae36dc53ecf";
     //why is the following line not working?
     // todayDateEl.text(city.toUpperCase() + " " + dayjs().format('DD/MM/YYYY'));
     fetch(requestUrl)
