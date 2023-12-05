@@ -1,0 +1,73 @@
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  background-color: #1b1919;
+  color: white;
+}
+
+header {
+  font-family: 'Arbutus';
+  background-image: url("../../assets/img/fire1.jpeg");
+  padding: 1px;
+  text-align: center;
+}
+
+.main-content {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  height: 600px;
+  background-image: url("../../assets/img/norris%202.jpeg");
+  padding: 11px;
+  flex-direction: column;
+  justify-items: inherit;
+  text-align: center;
+}
+
+.search-area {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.search-box {
+  margin-bottom: 5px;
+}
+
+.recent-searches {
+  color: #000000;
+}
+
+#weatherapicontainer {
+  text-wrap: wrap;
+  width: 75%;
+  height: 100%;
+  text-align: center;
+  border: 1px solid rgb(255,46,0);
+  border-bottom: #000000;
+  border-left: #000000;
+  border-right: #000000;
+}
+
+footer {
+  font-family: 'Arbutus';
+  background-image: url("../../assets/img/fire1.jpeg");
+  padding: 1px;
+  text-align: center;
+}
+
+.modal {
+  color: white;
+}
+
+.modal-content {
+  background-color: rgb(255,46,0);
+}
+
