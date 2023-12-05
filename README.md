@@ -19,7 +19,7 @@ https://verred01.github.io/Fists-of-Forecast
 
 ## Credits
 
-I used some code from these sources as a base for some of my work.
+We used some code from these sources as a base for some of our work.
 
 https://codepen.io/lookininward/pen/zYOQjZM
 

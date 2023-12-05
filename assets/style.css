@@ -7,7 +7,7 @@
            color: white;
        }
 
-       header, footer {
+       header {
            font-family: cursive;
            background: #000000;
            padding: 1px;
@@ -39,20 +39,9 @@
        .search-box {
            margin-bottom: 5px;
        }
+
        .recent-searches {
-        color: white
-       }
-       
-       #chuck-norris-joke {
-           text-wrap: wrap;
-           display: block;
-           width: 75%;
-           height: 100%;
-           text-align: center;
-           border: 5px solid rgb(22, 97, 97);
-           border-bottom: #000000;
-           border-left: #000000;
-           border-right: #000000;
+           color: white
        }
 
        #weatherapicontainer {
@@ -64,4 +53,19 @@
            border-bottom: #000000;
            border-left: #000000;
            border-right: #000000;
+       }
+
+       footer {
+           font-family: cursive;
+           background: #000000;
+           padding: 1px;
+           text-align: center;
+       }
+
+       .modal {
+           color: white;
+       }
+
+       .modal-content {
+           background-color: rgb(22, 97, 97);
        }
